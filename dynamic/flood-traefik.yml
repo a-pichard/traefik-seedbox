@@ -1,0 +1,16 @@
+http:
+  routers:
+    flood_https:
+      service: "rtorrent-flood-traefik@docker"
+      rule: "Host(`seedbox.domain.com`)"
+      entryPoints:
+        - "websecure"
+      tls:
+        certResolver: "https-resolver"
+    flood_http:
+      service: "rtorrent-flood-traefik@docker"
+      rule: "Host(`seedbox.domain.com`)"
+      entryPoints:
+        - "web"
+      middlewares:
+        - "redirecthttps"

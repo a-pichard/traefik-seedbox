@@ -1,0 +1,10 @@
+http:
+  middlewares:
+    traefikauth:
+      basicAuth:
+        users:
+          - "user:hashed-password"
+    redirecthttps:
+      redirectScheme:
+        scheme: https
+        permanent: true

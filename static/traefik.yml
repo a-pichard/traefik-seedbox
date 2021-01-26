@@ -1,0 +1,27 @@
+log:
+  level: DEBUG
+
+providers:
+  docker:
+    exposedbydefault: false
+  file:
+    directory: /etc/traefik/dynamic
+    watch: true
+
+api:
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+certificatesResolvers:
+  https-resolver:
+    acme:
+      httpChallenge:
+        entryPoint: web
+      email: "a@a.com"
+      storage: /etc/traefik/acme/acme.json
+      caserver: https://acme-v02.api.letsencrypt.org/directory

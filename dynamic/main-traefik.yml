@@ -1,0 +1,18 @@
+http:
+  routers:
+    dashboard_https:
+      service: "api@internal"
+      rule: "Host(`traefik.domain.com`)"
+      entryPoints:
+        - "websecure"
+      tls:
+        certResolver: "https-resolver"
+      middlewares:
+        - "traefikauth"
+    dashboard_http:
+      service: "api@internal"
+      rule: "Host(`traefik.domain.com`)"
+      entryPoints:
+        - "web"
+      middlewares:
+        - "redirecthttps"

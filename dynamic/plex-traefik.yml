@@ -1,0 +1,16 @@
+http:
+  routers:
+    plex_https:
+      service: "plex@docker"
+      rule: "Host(`plex.domain.com`)"
+      entryPoints:
+        - "websecure"
+      tls:
+        certResolver: "https-resolver"
+    plex_http:
+      service: "plex@docker"
+      rule: "Host(`plex.domain.com`)"
+      entryPoints:
+        - "web"
+      middlewares:
+        - "redirecthttps"

@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  traefik:
+    image: traefik:v2.4
+    container_name: traefik
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./static/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./acme:/etc/traefik/acme
+      - ./dynamic:/etc/traefik/dynamic:ro
+    labels:
+      - "traefik.enable=true"
+  rtorrent-flood:
+    image: wonderfall/rtorrent-flood
+    container_name: flood
+    volumes:
+      - ./flood-db:/flood-db
+      - ./storage:/data
+    environment:
+      FLOOD_SECRET: "supersecret30charactersminimum"
+    tty: true
+    labels:
+      - "traefik.enable=true"
+    ports:
+      - "49184:49184"
+  plex:
+    image: plexinc/pms-docker:latest
+    container_name: plex
+    environment:
+      - TZ=Europe/Paris
+      - PLEX_CLAIM=claim-xxxxxxxxxx
+      - ADVERTISE_IP=https://plex.domain.com:443
+      - PLEX_UID=${USER}
+      - PLEX_GID=${USER}
+      - VERSION=docker
+    volumes:
+      - ./plex/config:/config
+      - ./plex/transcode:/transcode
+      - ./storage:/data
+    hostname: plex.domain.com
+    ports:
+     - 32400:32400/tcp
+     - 32400:32400/udp
+     - 3005:3005/tcp
+     - 8324:8324/tcp
+     - 32469:32469/tcp
+     - 1900:1900/udp
+     - 32410:32410/udp
+     - 32412:32412/udp
+     - 32413:32413/udp
+     - 32414:32414/udp
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"

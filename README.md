@@ -35,7 +35,7 @@ $ sudo chown -R $USER * # or chown only created folders recursively
 
 Then
 
-Go to `https://plex.domain/web` and follow plex installation.
+Go to `https://plex.domain.com/web` and follow plex installation.
 
 If you have the `No soup for you` error you need to make the configuration locally (or SSH tunnel).
 ```Shell

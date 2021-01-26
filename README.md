@@ -1,4 +1,4 @@
-# trefik-seedbox
+# traefik-seedbox
 
 Plex media server and rtorrent-flood with traefik in docker and docker-compose
 

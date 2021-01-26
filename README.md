@@ -45,8 +45,6 @@ And start the configuration on `localhost:8888/web`
 
 Enable remote access during installation
 
-### FINISH
-
 ## Enjoy
 
 ### Credits for the Plex configuration
